@@ -6,6 +6,7 @@ namespace Zenbakitxoa
     public partial class zenbakitxoa : Form
     {
         int AldizTimer = 0;
+        System.Speech.Synthesis.SpeechSynthesizer syntetizer = new System.Speech.Synthesis.SpeechSynthesizer();
 
         public zenbakitxoa()
         {
@@ -74,6 +75,8 @@ namespace Zenbakitxoa
 
                 if (dataGridView1.SelectedRows.Count == 1)
                 {
+                    syntetizer.SetOutputToDefaultAudioDevice();
+ 
                     DataGridViewRow row = dataGridView1.SelectedRows[0];
                     string v = row.Cells[1].Value as string ?? string.Empty;
                     v += '\u25C9';
@@ -81,9 +84,11 @@ namespace Zenbakitxoa
 
                     if (v.Length >= 2)
                     {
-                        System.Media.SystemSounds.Exclamation.Play();
+                        syntetizer.Speak("Ya tenemos paganini!");
                     }
                 }
+
+                System.Media.SystemSounds.Asterisk.Play();
 
                 tik.Value = -1;
                 ra.Value = 100;
@@ -108,6 +113,10 @@ namespace Zenbakitxoa
                     ra.ForeColor = System.Drawing.Color.Red;
                     timer1.Enabled = true;
                 }
+            }
+            if (!ok)
+            {
+                syntetizer.Speak("Saiatu barriro!");
             }
             nz.Text = string.Empty;
             return ok;
